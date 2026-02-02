@@ -5,7 +5,7 @@ Skills for building [Pipelex](https://github.com/Pipelex/pipelex) workflows with
 ## Installation
 
 ```bash
-/plugin marketplace add Pipelex/skills
+/plugin marketplace add pipelex/skills
 /plugin install pipelex@pipelex-skills
 ```
 
