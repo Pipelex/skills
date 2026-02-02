@@ -1,0 +1,21 @@
+{
+  "name": "pipelex-skills",
+  "owner": {
+    "name": "Pipelex"
+  },
+  "metadata": {
+    "description": "Skills for building Pipelex workflows with Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "pipelex",
+      "description": "Write and edit Pipelex workflow bundles (.plx files)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/pipelex-workflow"
+      ]
+    }
+  ]
+}
