@@ -5,16 +5,19 @@
   },
   "metadata": {
     "description": "Skills for building Pipelex workflows with Claude Code",
-    "version": "1.0.0"
+    "version": "0.1.0"
   },
   "plugins": [
     {
       "name": "pipelex",
-      "description": "Write and edit Pipelex workflow bundles (.plx files)",
+      "description": "Build, edit, check, and fix Pipelex workflow bundles (.plx files)",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/pipelex-workflow"
+        "./skills/build",
+        "./skills/edit",
+        "./skills/check",
+        "./skills/fix"
       ]
     }
   ]
