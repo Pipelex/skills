@@ -1,9 +1,6 @@
 ---
 name: build
-description: |
-  Build new Pipelex workflow bundles (.plx files). Use when creating a new workflow,
-  user says "create a pipeline", "new workflow", "build a .plx file".
-  Supports interactive requirements gathering and direct creation.
+description: Build new Pipelex workflow bundles (.plx files). Use when creating a new workflow, user says "create a pipeline", "new workflow", "build a .plx file". Supports interactive requirements gathering and direct creation.
 ---
 
 # Build Pipelex Workflow

@@ -1,9 +1,6 @@
 ---
 name: fix
-description: |
-  Fix issues in Pipelex workflow bundles. Use when user wants to fix validation errors,
-  asks "fix this workflow", or after /pipelex:check identified issues.
-  Automatically fixes issues and re-validates.
+description: Fix issues in Pipelex workflow bundles. Use when user wants to fix validation errors, asks "fix this workflow", or after /check identified issues. Automatically fixes issues and re-validates.
 ---
 
 # Fix Pipelex Workflow

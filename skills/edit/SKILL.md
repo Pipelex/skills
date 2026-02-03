@@ -1,8 +1,6 @@
 ---
 name: edit
-description: |
-  Edit existing Pipelex workflow bundles (.plx files). Use when modifying an existing
-  .plx file, adding/removing/changing pipes or concepts, refactoring workflow structure.
+description: Edit existing Pipelex workflow bundles (.plx files). Use when modifying an existing .plx file, adding/removing/changing pipes or concepts, refactoring workflow structure.
 ---
 
 # Edit Pipelex Workflow

@@ -1,9 +1,6 @@
 ---
 name: check
-description: |
-  Check Pipelex workflow bundles for issues. Use when validating a .plx file,
-  user asks "does this workflow make sense?", wants review without automatic fixes.
-  Reports issues only - does not modify files.
+description: Check Pipelex workflow bundles for issues. Use when validating a .plx file, user asks "does this workflow make sense?", wants review without automatic fixes. Reports issues only - does not modify files.
 ---
 
 # Check Pipelex Workflow
