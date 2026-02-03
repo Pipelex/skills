@@ -21,10 +21,16 @@ Verify: `pipelex --version` or `uv run pipelex --version`
 
 ## Installation
 
+This is a plugin repository containing Pipelex skills. To use it:
+
+**Option A: Clone and reference locally**
 ```bash
-/plugin marketplace add pipelex/skills
-/plugin install pipelex@pipelex-skills
+git clone https://github.com/Pipelex/skills.git
+claude --plugin-dir /path/to/skills
 ```
+
+**Option B: Manual skill access**
+The skills are documented in `skills/*/SKILL.md` and can be referenced directly.
 
 ## Available Skills
 

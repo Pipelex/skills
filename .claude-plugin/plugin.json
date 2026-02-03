@@ -1,0 +1,11 @@
+{
+  "name": "pipelex",
+  "description": "Build, edit, check, and fix Pipelex workflow bundles (.plx files)",
+  "strict": false,
+  "skills": [
+    "./skills/build",
+    "./skills/edit",
+    "./skills/check",
+    "./skills/fix"
+  ]
+}
