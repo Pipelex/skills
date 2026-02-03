@@ -1,28 +1,6 @@
----
-name: pipelex-workflow
-description: |
-  Write and edit Pipelex workflow bundles (.plx files) - a domain-specific language for building AI pipelines. Use when:
-  (1) Creating new .plx workflow files with domains, concepts, and pipes
-  (2) Editing existing Pipelex bundles
-  (3) Defining concepts with inline structures or Python classes
-  (4) Creating PipeLLM, PipeSequence, PipeCondition, PipeExtract, PipeCompose, PipeImgGen, or PipeFunc pipes
-  (5) Validating pipelines with `pipelex validate`
-  Triggers: "write a pipeline", "create a .plx file", "pipelex workflow", "AI workflow", "define concepts", "pipe definition"
----
+# Pipelex Language Reference
 
-# Pipelex Workflow Bundle Guide
-
-Write AI pipelines using the Pipelex language in `.plx` files.
-
-## Workflow
-
-1. Plan in natural language first, then transcribe to Pipelex
-2. Write the `.plx` file (POSIX standard: empty line at end, no trailing whitespace)
-3. **Generate inputs**: `.venv/bin/pipelex --no-logo build inputs my_bundle.plx`
-4. **Validate**: `.venv/bin/pipelex --no-logo validate my_bundle.plx`
-5. **Dry run first**: `.venv/bin/pipelex --no-logo run my_bundle.plx --dry-run --mock-inputs`
-6. **Run**: `.venv/bin/pipelex --no-logo run my_bundle.plx --inputs inputs.json`
-7. Iterate until validation passes
+Complete reference for the Pipelex workflow language.
 
 ## Bundle Structure
 
@@ -59,7 +37,7 @@ Your prompt here with @block_var and $inline_var
 
 ## Native Concepts
 
-Use directly without defining: `Text`, `Image`, `PDF`, `Document`, `TextAndImages`, `Number`, `Page`, `JSON`, `ImgGenPrompt`
+Use directly without defining: `Text`, `Image`, `PDF`, `Document`, `TextAndImages`, `Number`, `Page`, `JSON`, `ImgGenPrompt`, `Html`
 
 ## Concept Definitions
 
@@ -186,6 +164,61 @@ large = "process_large"
 ```
 
 Use `default_outcome = "fail"` for strict matching.
+
+### PipeBatch - Map operation over a list
+
+Applies the same pipe to each item in a list. Like a `map` operation: list in, list out, each item transformed by the same pipe.
+
+```toml
+[pipe.process_all_documents]
+type = "PipeBatch"
+description = "Process each document in the list"
+inputs = { documents = "Document[]" }
+output = "Summary[]"
+pipe = "summarize_document"
+batch_over = "documents"
+batch_as = "document"
+```
+
+**Required fields:**
+- `pipe` - The pipe to apply to each item
+- `batch_over` - The input list to iterate over
+- `batch_as` - The variable name for each item (used by the sub-pipe)
+
+Items are processed in parallel for efficiency. Output list preserves input order.
+
+### PipeParallel - Run multiple pipes concurrently
+
+Execute multiple independent pipes in parallel on the same inputs.
+
+**Mode 1: Separate outputs** (each branch adds to working memory)
+```toml
+[pipe.analyze_all_aspects]
+type = "PipeParallel"
+description = "Run multiple analyses in parallel"
+inputs = { document = "Document" }
+
+[pipe.analyze_all_aspects.branches]
+sentiment = "analyze_sentiment"
+topics = "extract_topics"
+summary = "generate_summary"
+```
+
+**Mode 2: Combined output** (merge branch results into single concept)
+```toml
+[pipe.analyze_all_aspects]
+type = "PipeParallel"
+description = "Run multiple analyses in parallel"
+inputs = { document = "Document" }
+output = "FullAnalysis"
+
+[pipe.analyze_all_aspects.branches]
+sentiment = "analyze_sentiment"
+topics = "extract_topics"
+summary = "generate_summary"
+```
+
+**Branches**: Each key identifies the branch, value is the pipe to run. All branches receive the same inputs and execute concurrently.
 
 ### PipeExtract - Extract text/images from PDF/Image
 
@@ -338,28 +371,31 @@ model = "$writing-creative"
 
 ## CLI Commands
 
+**Before running commands**, check pipelex availability:
+1. Try `pipelex --version` (works if globally installed or venv is activated)
+2. If not found, try `uv run pipelex --version` (works with project venv + uv)
+3. If neither works: "Pipelex CLI not found. Install with `pip install pipelex` or `uv add pipelex`"
+
+Use whichever method works. Prefix all subsequent commands the same way (either bare `pipelex` or `uv run pipelex`).
+
 **Always use `--no-logo`** to avoid wasting tokens on ASCII art output.
 
-Run commands directly from the venv (no activation needed):
-
 ```bash
-# Generate example input JSON (saved next to the .plx file as inputs.json)
-.venv/bin/pipelex --no-logo build inputs my_bundle.plx
-.venv/bin/pipelex --no-logo build inputs my_bundle.plx --pipe specific_pipe
+# Generate example input JSON
+pipelex --no-logo build inputs my_bundle.plx
+pipelex --no-logo build inputs my_bundle.plx --pipe specific_pipe
 
 # Validate a bundle
-.venv/bin/pipelex --no-logo validate my_bundle.plx
+pipelex --no-logo validate my_bundle.plx
 
 # Dry run (no API calls, validates logic)
-.venv/bin/pipelex --no-logo run my_bundle.plx --dry-run
-.venv/bin/pipelex --no-logo run my_bundle.plx --dry-run --mock-inputs  # Auto-generate mock data
+pipelex --no-logo run my_bundle.plx --dry-run
+pipelex --no-logo run my_bundle.plx --dry-run --mock-inputs
 
 # Run with inputs
-.venv/bin/pipelex --no-logo run my_bundle.plx --inputs inputs.json
-.venv/bin/pipelex --no-logo run my_bundle.plx --pipe specific_pipe --inputs inputs.json
+pipelex --no-logo run my_bundle.plx --inputs inputs.json
+pipelex --no-logo run my_bundle.plx --pipe specific_pipe --inputs inputs.json
 ```
-
-On Windows, use `.venv\Scripts\pipelex` instead of `.venv/bin/pipelex`.
 
 ## Common Errors
 
